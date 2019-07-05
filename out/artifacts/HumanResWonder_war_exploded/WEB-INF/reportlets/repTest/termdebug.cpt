@@ -1,0 +1,1166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20100901">
+<TableDataMap>
+<TableData name="ds1" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="cpNo"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[con1]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select c.CONS_NO,
+       c.CONS_Name,
+       a.cp_no,
+       d.contact_name,
+       d.OFFICE_TEL,
+       e.org_name,
+       g.name,
+       l.asset_no,
+       f.area_code||f.TERMINAL_ADDR 
+as TERMINAL_ADDR,
+       j.CHG_CAP,
+       c.RUN_CAP
+from r_CP a
+left join R_CP_CONS_RELA b
+on a.cp_no = b.cp_no
+left join C_CONS c
+on b.cons_id = c.cons_id
+left join C_CONTACT d
+on c.cust_id = d.cust_id
+and contact_mode ='03'
+left join o_org e
+on  a.org_no = e.org_no
+left join R_TMNL_RUN f
+on  a.cp_no = f.cp_no
+left join R_TMNL_MODEL g
+on f.rtumodel_id = g.rtumodel_id
+left join C_SP h 
+on h.cons_id = c.cons_id
+left join C_PS i
+on h.sp_id = i.sp_id
+left join G_TRAN j
+on j.TG_ID = i.tg_id
+left join R_TMNL_IR_TASK k
+on k.cp_no = f.cp_no
+and k.chg_mode ='01'
+left join D_LC_EQUIP l
+on l.id = k.asset_id
+where a.cp_no ='${cpNo}']]></Query>
+</TableData>
+</TableDataMap>
+<ReportWebAttr>
+<ServerPrinter/>
+<WebPageContent>
+<ToolBars>
+<ToolBarManager>
+<Location>
+<Embed position="1"/>
+</Location>
+<ToolBar>
+<Widget class="com.fr.report.web.ui.impl.page.First">
+<WidgetAttr disabled="true"/>
+<Text>
+<![CDATA[${i18n("ReportServerP-First")}]]></Text>
+<IconName>
+<![CDATA[first]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.ui.impl.page.Previous">
+<WidgetAttr disabled="true"/>
+<Text>
+<![CDATA[${i18n("ReportServerP-Previous")}]]></Text>
+<IconName>
+<![CDATA[previous]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.ui.impl.page.PageNavi">
+<WidgetAttr/>
+</Widget>
+<Widget class="com.fr.report.web.ui.impl.page.Next">
+<WidgetAttr disabled="true"/>
+<Text>
+<![CDATA[${i18n("ReportServerP-Next")}]]></Text>
+<IconName>
+<![CDATA[next]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.ui.impl.page.Last">
+<WidgetAttr disabled="true"/>
+<Text>
+<![CDATA[${i18n("ReportServerP-Last")}]]></Text>
+<IconName>
+<![CDATA[last]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.ui.impl.FlashPrint">
+<WidgetAttr disabled="true"/>
+<Text>
+<![CDATA[${i18n("Utils-Print[Client]A")}]]></Text>
+<IconName>
+<![CDATA[flashprint]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.ui.impl.Print">
+<WidgetAttr/>
+<Text>
+<![CDATA[${i18n("Print")}]]></Text>
+<IconName>
+<![CDATA[print]]></IconName>
+<PrintButtons/>
+</Widget>
+<Widget class="com.fr.report.web.ui.impl.Export">
+<WidgetAttr/>
+<Text>
+<![CDATA[${i18n("Export")}]]></Text>
+<IconName>
+<![CDATA[export]]></IconName>
+<Buttons pdf="true" excelP="true" excelO="true" excelS="true" word="true"/>
+</Widget>
+<Widget class="com.fr.report.web.ui.impl.Email">
+<WidgetAttr disabled="true"/>
+<Text>
+<![CDATA[${i18n("Email")}]]></Text>
+<IconName>
+<![CDATA[email]]></IconName>
+</Widget>
+</ToolBar>
+</ToolBarManager>
+</ToolBars>
+<WebPage isPage="false" isShowAsImage="false"/>
+</WebPageContent>
+<WebWriteContent>
+<ToolBars/>
+<SelectedColor color="-10033153"/>
+</WebWriteContent>
+<Background name="NullBackground"/>
+<CacheValidateTime>
+<![CDATA[0]]></CacheValidateTime>
+</ReportWebAttr>
+<Report class="com.fr.report.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<RowHeight defaultValue="19">
+<![CDATA[19,19,19,19,19,19,19,19,19,19,19]]></RowHeight>
+<ColumnWidth defaultValue="72">
+<![CDATA[27,99,100,72,89,72,72,115,72,72]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0">
+<Expand/>
+</C>
+<C c="1" r="0" cs="7" rs="3" s="0">
+<O>
+<![CDATA[终端调试单]]></O>
+<Expand/>
+</C>
+<C c="0" r="1">
+<Expand/>
+</C>
+<C c="0" r="2">
+<Expand/>
+</C>
+<C c="0" r="3">
+<Expand/>
+</C>
+<C c="1" r="3" rs="2" s="1">
+<O>
+<![CDATA[用户编号]]></O>
+<Expand/>
+</C>
+<C c="2" r="3" rs="2" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="CONS_NO"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="3" r="3" rs="2" s="1">
+<O>
+<![CDATA[用户名称]]></O>
+<Expand/>
+</C>
+<C c="4" r="3" rs="2" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="CONS_NAME"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="5" r="3" rs="2" s="1">
+<O>
+<![CDATA[采集点编号]]></O>
+<Expand/>
+</C>
+<C c="6" r="3" cs="2" rs="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="CP_NO"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="0" r="4">
+<Expand/>
+</C>
+<C c="0" r="5">
+<Expand/>
+</C>
+<C c="1" r="5" s="1">
+<O>
+<![CDATA[联系人]]></O>
+<Expand/>
+</C>
+<C c="2" r="5" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="CONTACT_NAME"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="3" r="5" s="1">
+<O>
+<![CDATA[联系电话]]></O>
+<Expand/>
+</C>
+<C c="4" r="5" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="OFFICE_TEL"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="5" r="5" s="1">
+<O>
+<![CDATA[所属区域]]></O>
+<Expand/>
+</C>
+<C c="6" r="5" cs="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="ORG_NAME"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="0" r="6">
+<Expand/>
+</C>
+<C c="1" r="6" s="1">
+<O>
+<![CDATA[终端型号]]></O>
+<Expand/>
+</C>
+<C c="2" r="6" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="NAME"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="3" r="6" s="1">
+<O>
+<![CDATA[终端地址码]]></O>
+<Expand/>
+</C>
+<C c="4" r="6" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="TERMINAL_ADDR"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="5" r="6" s="1">
+<O>
+<![CDATA[变压器变量]]></O>
+<Expand/>
+</C>
+<C c="6" r="6" cs="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="CHG_CAP"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="0" r="7">
+<Expand/>
+</C>
+<C c="1" r="7" s="1">
+<O>
+<![CDATA[终端资产号]]></O>
+<Expand/>
+</C>
+<C c="2" r="7" cs="3" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="ASSET_NO"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="5" r="7" s="1">
+<O>
+<![CDATA[批准容量]]></O>
+<Expand/>
+</C>
+<C c="6" r="7" cs="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="RUN_CAP"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="0" r="8">
+<Expand/>
+</C>
+<C c="1" r="8" cs="7" s="2">
+<O>
+<![CDATA[信道调试]]></O>
+<Expand/>
+</C>
+<C c="0" r="9">
+<Expand/>
+</C>
+<C c="1" r="9" s="1">
+<O>
+<![CDATA[信号通道]]></O>
+<Expand/>
+</C>
+<C c="2" r="9" s="1">
+<Expand/>
+</C>
+<C c="3" r="9" s="1">
+<O>
+<![CDATA[使用频点]]></O>
+<Expand/>
+</C>
+<C c="4" r="9" s="1">
+<Expand/>
+</C>
+<C c="5" r="9" s="1">
+<O>
+<![CDATA[通讯方式]]></O>
+<Expand/>
+</C>
+<C c="6" r="9" cs="2" s="2">
+<Expand/>
+</C>
+<C c="0" r="10">
+<Expand/>
+</C>
+<C c="1" r="10" s="1">
+<O>
+<![CDATA[发射功率(w)]]></O>
+<Expand/>
+</C>
+<C c="2" r="10" s="1">
+<Expand/>
+</C>
+<C c="3" r="10" s="1">
+<O>
+<![CDATA[下行场强]]></O>
+<Expand/>
+</C>
+<C c="4" r="10" s="1">
+<O>
+<![CDATA[(>=24db)]]></O>
+<Expand/>
+</C>
+<C c="5" r="10" s="1">
+<O>
+<![CDATA[驻波比]]></O>
+<Expand/>
+</C>
+<C c="6" r="10" cs="2" s="2">
+<O>
+<![CDATA[(1.1-1.3)]]></O>
+<Expand/>
+</C>
+<C c="0" r="11">
+<Expand/>
+</C>
+<C c="1" r="11" s="1">
+<O>
+<![CDATA[下行话音]]></O>
+<Expand/>
+</C>
+<C c="2" r="11" cs="2" s="1">
+<Expand/>
+</C>
+<C c="4" r="11" s="1">
+<O>
+<![CDATA[上行话音]]></O>
+<Expand/>
+</C>
+<C c="5" r="11" cs="3" s="2">
+<O>
+<![CDATA[[]A清晰   []A有噪音]]></O>
+<Expand/>
+</C>
+<C c="0" r="12">
+<Expand/>
+</C>
+<C c="1" r="12" cs="7" s="2">
+<O>
+<![CDATA[功能调试]]></O>
+<Expand/>
+</C>
+<C c="0" r="13">
+<Expand/>
+</C>
+<C c="1" r="13" rs="2" s="1">
+<O>
+<![CDATA[序号]]></O>
+<Expand/>
+</C>
+<C c="2" r="13" rs="2" s="1">
+<O>
+<![CDATA[项目]]></O>
+<Expand/>
+</C>
+<C c="3" r="13" cs="2" s="1">
+<O>
+<![CDATA[结果]]></O>
+<Expand/>
+</C>
+<C c="5" r="13" cs="3" rs="2" s="2">
+<O>
+<![CDATA[正常说明]]></O>
+<Expand/>
+</C>
+<C c="0" r="14">
+<Expand/>
+</C>
+<C c="3" r="14" s="1">
+<O>
+<![CDATA[正常]]></O>
+<Expand/>
+</C>
+<C c="4" r="14" s="1">
+<O>
+<![CDATA[不正常]]></O>
+<Expand/>
+</C>
+<C c="0" r="15">
+<Expand/>
+</C>
+<C c="1" r="15" s="1">
+<O t="I">
+<![CDATA[1]]></O>
+<Expand/>
+</C>
+<C c="2" r="15" s="1">
+<O>
+<![CDATA[屏幕显示]]></O>
+<Expand/>
+</C>
+<C c="3" r="15" s="1">
+<Expand/>
+</C>
+<C c="4" r="15" s="1">
+<O>
+<![CDATA[]]></O>
+<Expand/>
+</C>
+<C c="5" r="15" cs="3" s="2">
+<O>
+<![CDATA[显示清晰]]></O>
+<Expand/>
+</C>
+<C c="0" r="16">
+<Expand/>
+</C>
+<C c="1" r="16" s="1">
+<O t="I">
+<![CDATA[2]]></O>
+<Expand/>
+</C>
+<C c="2" r="16" s="1">
+<O>
+<![CDATA[对时]]></O>
+<Expand/>
+</C>
+<C c="3" r="16" s="1">
+<Expand/>
+</C>
+<C c="4" r="16" s="1">
+<Expand/>
+</C>
+<C c="5" r="16" cs="3" s="2">
+<O>
+<![CDATA[时钟一致]]></O>
+<Expand/>
+</C>
+<C c="0" r="17">
+<Expand/>
+</C>
+<C c="1" r="17" s="1">
+<O t="I">
+<![CDATA[3]]></O>
+<Expand/>
+</C>
+<C c="2" r="17" s="1">
+<O>
+<![CDATA[清参数]]></O>
+<Expand/>
+</C>
+<C c="3" r="17" s="1">
+<Expand/>
+</C>
+<C c="4" r="17" s="1">
+<Expand/>
+</C>
+<C c="5" r="17" cs="3" s="2">
+<O>
+<![CDATA[显示复位信息]]></O>
+<Expand/>
+</C>
+<C c="0" r="18">
+<Expand/>
+</C>
+<C c="1" r="18" s="1">
+<O t="I">
+<![CDATA[4]]></O>
+<Expand/>
+</C>
+<C c="2" r="18" s="1">
+<O>
+<![CDATA[发参数]]></O>
+<Expand/>
+</C>
+<C c="3" r="18" s="1">
+<Expand/>
+</C>
+<C c="4" r="18" s="1">
+<Expand/>
+</C>
+<C c="5" r="18" cs="3" s="2">
+<O>
+<![CDATA[参数一致]]></O>
+<Expand/>
+</C>
+<C c="0" r="19">
+<Expand/>
+</C>
+<C c="1" r="19" s="1">
+<O t="I">
+<![CDATA[5]]></O>
+<Expand/>
+</C>
+<C c="2" r="19" s="1">
+<O>
+<![CDATA[报警]]></O>
+<Expand/>
+</C>
+<C c="3" r="19" s="1">
+<Expand/>
+</C>
+<C c="4" r="19" s="1">
+<Expand/>
+</C>
+<C c="5" r="19" cs="3" s="2">
+<O>
+<![CDATA[有无输出]]></O>
+<Expand/>
+</C>
+<C c="0" r="20">
+<Expand/>
+</C>
+<C c="1" r="20" s="1">
+<O t="I">
+<![CDATA[6]]></O>
+<Expand/>
+</C>
+<C c="2" r="20" s="1">
+<O>
+<![CDATA[断电保护]]></O>
+<Expand/>
+</C>
+<C c="3" r="20" s="1">
+<Expand/>
+</C>
+<C c="4" r="20" s="1">
+<Expand/>
+</C>
+<C c="5" r="20" cs="3" s="2">
+<O>
+<![CDATA[断电两分钟参数不会丢失]]></O>
+<Expand/>
+</C>
+<C c="0" r="21">
+<Expand/>
+</C>
+<C c="1" r="21" s="1">
+<O t="I">
+<![CDATA[7]]></O>
+<Expand/>
+</C>
+<C c="2" r="21" s="1">
+<O>
+<![CDATA[抄表]]></O>
+<Expand/>
+</C>
+<C c="3" r="21" s="1">
+<Expand/>
+</C>
+<C c="4" r="21" s="1">
+<Expand/>
+</C>
+<C c="5" r="21" cs="3" s="2">
+<O>
+<![CDATA[主台读数与当地表记一致]]></O>
+<Expand/>
+</C>
+<C c="0" r="22">
+<Expand/>
+</C>
+<C c="1" r="22" s="1">
+<O t="I">
+<![CDATA[8]]></O>
+<Expand/>
+</C>
+<C c="2" r="22" s="1">
+<O>
+<![CDATA[发送通话允许]]></O>
+<Expand/>
+</C>
+<C c="3" r="22" s="1">
+<Expand/>
+</C>
+<C c="4" r="22" s="1">
+<Expand/>
+</C>
+<C c="5" r="22" cs="3" s="2">
+<O>
+<![CDATA[报警，且通话声音清晰]]></O>
+<Expand/>
+</C>
+<C c="0" r="23">
+<Expand/>
+</C>
+<C c="1" r="23" s="1">
+<O t="I">
+<![CDATA[9]]></O>
+<Expand/>
+</C>
+<C c="2" r="23" s="1">
+<O>
+<![CDATA[中文信息]]></O>
+<Expand/>
+</C>
+<C c="3" r="23" s="1">
+<Expand/>
+</C>
+<C c="4" r="23" s="1">
+<Expand/>
+</C>
+<C c="5" r="23" cs="3" s="2">
+<O>
+<![CDATA[与主台一致]]></O>
+<Expand/>
+</C>
+<C c="0" r="24">
+<Expand/>
+</C>
+<C c="1" r="24" s="1">
+<O t="I">
+<![CDATA[10]]></O>
+<Expand/>
+</C>
+<C c="2" r="24" s="1">
+<O>
+<![CDATA[遥信]]></O>
+<Expand/>
+</C>
+<C c="3" r="24" s="1">
+<Expand/>
+</C>
+<C c="4" r="24" s="1">
+<Expand/>
+</C>
+<C c="5" r="24" cs="3" s="2">
+<O>
+<![CDATA[主台与当地一致]]></O>
+<Expand/>
+</C>
+<C c="0" r="25">
+<Expand/>
+</C>
+<C c="1" r="25" rs="4" s="1">
+<O t="I">
+<![CDATA[11]]></O>
+<Expand/>
+</C>
+<C c="2" r="25" rs="4" s="1">
+<O>
+<![CDATA[遥控]]></O>
+<Expand/>
+</C>
+<C c="3" r="25" s="1">
+<Expand/>
+</C>
+<C c="4" r="25" s="1">
+<Expand/>
+</C>
+<C c="5" r="25" cs="3" s="2">
+<O>
+<![CDATA[第一轮：[]A开关 []A终端继电器]]></O>
+<Expand/>
+</C>
+<C c="0" r="26">
+<Expand/>
+</C>
+<C c="3" r="26" s="1">
+<Expand/>
+</C>
+<C c="4" r="26" s="1">
+<Expand/>
+</C>
+<C c="5" r="26" cs="3" s="2">
+<O>
+<![CDATA[第二轮：[]A开关 []A终端继电器]]></O>
+<Expand/>
+</C>
+<C c="0" r="27">
+<Expand/>
+</C>
+<C c="3" r="27" s="1">
+<Expand/>
+</C>
+<C c="4" r="27" s="1">
+<Expand/>
+</C>
+<C c="5" r="27" cs="3" s="2">
+<O>
+<![CDATA[第三轮：[]A开关 []A终端继电器]]></O>
+<Expand/>
+</C>
+<C c="0" r="28">
+<Expand/>
+</C>
+<C c="3" r="28" s="1">
+<Expand/>
+</C>
+<C c="4" r="28" s="1">
+<Expand/>
+</C>
+<C c="5" r="28" cs="3" s="2">
+<O>
+<![CDATA[第四轮：[]A开关 []A终端继电器]]></O>
+<Expand/>
+</C>
+<C c="0" r="29">
+<Expand/>
+</C>
+<C c="1" r="29" s="1">
+<O t="I">
+<![CDATA[12]]></O>
+<Expand/>
+</C>
+<C c="2" r="29" s="1">
+<O>
+<![CDATA[门禁]]></O>
+<Expand/>
+</C>
+<C c="3" r="29" s="1">
+<Expand/>
+</C>
+<C c="4" r="29" s="1">
+<Expand/>
+</C>
+<C c="5" r="29" cs="3" s="2">
+<O>
+<![CDATA[与主台一致]]></O>
+<Expand/>
+</C>
+<C c="0" r="30">
+<Expand/>
+</C>
+<C c="1" r="30" s="1">
+<O t="I">
+<![CDATA[13]]></O>
+<Expand/>
+</C>
+<C c="2" r="30" s="1">
+<O>
+<![CDATA[脉冲功率(总加)]]></O>
+<Expand/>
+</C>
+<C c="3" r="30" s="1">
+<Expand/>
+</C>
+<C c="4" r="30" s="1">
+<Expand/>
+</C>
+<C c="5" r="30" cs="3" s="2">
+<O>
+<![CDATA[与现场实际功率比较，须相等]]></O>
+<Expand/>
+</C>
+<C c="0" r="31">
+<Expand/>
+</C>
+<C c="1" r="31" rs="6" s="1">
+<O t="I">
+<![CDATA[14]]></O>
+<Expand/>
+</C>
+<C c="2" r="31" rs="6" s="1">
+<O>
+<![CDATA[交流采样]]></O>
+<Expand/>
+</C>
+<C c="3" r="31" s="1">
+<O>
+<![CDATA[CT/PT]]></O>
+<Expand/>
+</C>
+<C c="4" r="31" cs="2" s="1">
+<O>
+<![CDATA[CT:  PT:]]></O>
+<Expand/>
+</C>
+<C c="6" r="31" cs="2" s="2">
+<Expand/>
+</C>
+<C c="0" r="32">
+<Expand/>
+</C>
+<C c="3" r="32" s="1">
+<O>
+<![CDATA[电压(V)]]></O>
+<Expand/>
+</C>
+<C c="4" r="32" cs="2" s="1">
+<O>
+<![CDATA[UA= UB= UC=]]></O>
+<Expand/>
+</C>
+<C c="6" r="32" cs="2" s="2">
+<O>
+<![CDATA[是否断相]]></O>
+<Expand/>
+</C>
+<C c="0" r="33">
+<Expand/>
+</C>
+<C c="3" r="33" s="1">
+<O>
+<![CDATA[电流{A}]]></O>
+<Expand/>
+</C>
+<C c="4" r="33" cs="2" s="1">
+<O>
+<![CDATA[IA= IB= IC=]]></O>
+<Expand/>
+</C>
+<C c="6" r="33" cs="2" s="2">
+<O>
+<![CDATA[是否断相]]></O>
+<Expand/>
+</C>
+<C c="0" r="34">
+<Expand/>
+</C>
+<C c="3" r="34" s="1">
+<O>
+<![CDATA[相位角]]></O>
+<Expand/>
+</C>
+<C c="4" r="34" cs="2" s="1">
+<O>
+<![CDATA[IA UA(B) IB UB IC UC(B)]]></O>
+<Expand/>
+</C>
+<C c="6" r="34" cs="2" s="2">
+<O>
+<![CDATA[是否正常]]></O>
+<Expand/>
+</C>
+<C c="0" r="35">
+<Expand/>
+</C>
+<C c="3" r="35" rs="2" s="1">
+<O>
+<![CDATA[功率]]></O>
+<Expand/>
+</C>
+<C c="4" r="35" s="1">
+<O>
+<![CDATA[交* PT*CT/1000]]></O>
+<Expand/>
+</C>
+<C c="5" r="35" s="1">
+<O>
+<![CDATA[P脉冲=]]></O>
+<Expand/>
+</C>
+<C c="6" r="35" cs="2" rs="2" s="2">
+<O>
+<![CDATA[是否相等]]></O>
+<Expand/>
+</C>
+<C c="0" r="36">
+<Expand/>
+</C>
+<C c="4" r="36" s="1">
+<O>
+<![CDATA[交* PT*CT/1000]]></O>
+<Expand/>
+</C>
+<C c="5" r="36" s="1">
+<O>
+<![CDATA[Q脉冲=]]></O>
+<Expand/>
+</C>
+<C c="0" r="37">
+<Expand/>
+</C>
+<C c="1" r="37" rs="4" s="1">
+<O t="I">
+<![CDATA[15]]></O>
+<Expand/>
+</C>
+<C c="2" r="37" rs="2" s="1">
+<O>
+<![CDATA[电能表]]></O>
+<Expand/>
+</C>
+<C c="3" r="37" s="1">
+<O>
+<![CDATA[本局编号]]></O>
+<Expand/>
+</C>
+<C c="4" r="37" s="1">
+<O>
+<![CDATA[表型号]]></O>
+<Expand/>
+</C>
+<C c="5" r="37" s="1">
+<O>
+<![CDATA[表规约]]></O>
+<Expand/>
+</C>
+<C c="6" r="37" cs="2" s="2">
+<O>
+<![CDATA[表地址]]></O>
+<Expand/>
+</C>
+<C c="0" r="38">
+<Expand/>
+</C>
+<C c="3" r="38" s="1">
+<Expand/>
+</C>
+<C c="4" r="38" s="1">
+<Expand/>
+</C>
+<C c="5" r="38" s="1">
+<Expand/>
+</C>
+<C c="6" r="38" cs="2" s="2">
+<Expand/>
+</C>
+<C c="0" r="39">
+<Expand/>
+</C>
+<C c="2" r="39" s="1">
+<O>
+<![CDATA[互感器]]></O>
+<Expand/>
+</C>
+<C c="3" r="39" s="1">
+<O>
+<![CDATA[表型号]]></O>
+<Expand/>
+</C>
+<C c="4" r="39" s="1">
+<O>
+<![CDATA[类别]]></O>
+<Expand/>
+</C>
+<C c="5" r="39" s="1">
+<O>
+<![CDATA[变比]]></O>
+<Expand/>
+</C>
+<C c="6" r="39" cs="2" s="2">
+<Expand/>
+</C>
+<C c="0" r="40">
+<Expand/>
+</C>
+<C c="2" r="40" s="1">
+<Expand/>
+</C>
+<C c="3" r="40" s="1">
+<Expand/>
+</C>
+<C c="4" r="40" s="1">
+<O>
+<![CDATA[(电压/电流)]]></O>
+<Expand/>
+</C>
+<C c="5" r="40" s="1">
+<Expand/>
+</C>
+<C c="6" r="40" cs="2" s="2">
+<Expand/>
+</C>
+<C c="0" r="41">
+<Expand/>
+</C>
+<C c="1" r="41" cs="7" s="2">
+<O>
+<![CDATA[调试信息]]></O>
+<Expand/>
+</C>
+<C c="0" r="42">
+<Expand/>
+</C>
+<C c="1" r="42" s="1">
+<O>
+<![CDATA[是否投运]]></O>
+<Expand/>
+</C>
+<C c="2" r="42" s="1">
+<O>
+<![CDATA[[]A是 []A否]]></O>
+<Expand/>
+</C>
+<C c="3" r="42" s="1">
+<O>
+<![CDATA[备注]]></O>
+<Expand/>
+</C>
+<C c="4" r="42" s="1">
+<Expand/>
+</C>
+<C c="5" r="42" s="1">
+<Expand/>
+</C>
+<C c="6" r="42" cs="2" s="2">
+<Expand/>
+</C>
+<C c="0" r="43">
+<Expand/>
+</C>
+<C c="1" r="43" s="3">
+<O>
+<![CDATA[现场调试人]]></O>
+<Expand/>
+</C>
+<C c="2" r="43" s="3">
+<Expand/>
+</C>
+<C c="3" r="43" s="3">
+<O>
+<![CDATA[主台调试人]]></O>
+<Expand/>
+</C>
+<C c="4" r="43" s="3">
+<Expand/>
+</C>
+<C c="5" r="43" s="3">
+<O>
+<![CDATA[调试日期]]></O>
+<Expand/>
+</C>
+<C c="6" r="43" cs="2" s="4">
+<Expand/>
+</C>
+</CellElementList>
+<ReportSettings headerHeight="0.0" footerHeight="0.0">
+<PaperSetting>
+<Margin top="0.27" left="0.75" bottom="0.27" right="0.75"/>
+</PaperSetting>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</Report>
+<StyleList>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="24"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="2"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="2"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="2"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="2"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="2"/>
+<Left style="1"/>
+<Right style="2"/>
+</Border>
+</Style>
+</StyleList>
+</WorkBook>

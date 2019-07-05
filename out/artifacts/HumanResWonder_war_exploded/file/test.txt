@@ -1,0 +1,326 @@
+function save(){
+	/* var userName = $("#userName").val();
+	if (userName=='') {
+		alert("用户姓名不能为空");
+		return;
+	} */
+	var phoneNumber = $("#phoneNumber").val();
+	if (!checkMobile(phoneNumber)) {
+		alert("手机号格式有误");
+		return;
+	}
+	/* var userCode = $("#userCode").val();
+	if (!checkUserCode(userCode)) {
+		alert("身份证格式不正确");
+		return;
+	}
+	var alarmNumber = $("#alarmNumber").val();
+	if (alarmNumber=='') {
+		alert("警号不能为空");
+		return;
+	} */
+	var smsCode = $("#smsCode").val();
+	if (smsCode=='') {
+		alert("验证码不能为空");
+		return;
+	}
+	var smsRandomCode = $("#smsRandomCode").val();
+	var password = $("#password").val();
+	var repassword = $("#repassword").val();
+	if (password.length<6) {
+		$("#passwordTip").html("密码长度必须大于6位");
+	}
+	if (repassword.length<6) {
+		$("#repasswordTip").html("密码长度必须大于6位");
+	}
+	if (password!=repassword) {
+		$("#repasswordTip").html("两次密码输入不一致");
+	}else{
+		$("#repasswordTip").html("");
+	}
+	debugger
+	if(repassword.length>=6&&password==repassword){
+		debugger
+		var param = {
+				"phoneNumber":phoneNumber,
+				"smsRandomCode":smsRandomCode,
+				"newPassword":password,
+				"smsCode":smsCode
+		}
+		$.postJSON("<%=request.getContextPath()%>/registAccount/changeNewPassword",param,function(e){
+			if(e&&e.success){
+				alert("密码修改成功");
+			}else{
+				alert(e.error);
+			}
+		});
+	}
+}
+//密码失去焦点事件
+$("#password").blur(function(){
+	var password = $("#password").val();
+	if(password==''){
+		$("#passwordTip").html("新设密码不能为空");
+	}else if (password.length<6) {
+		$("#passwordTip").html("密码长度必须大于6位");
+	}else{
+		$("#passwordTip").html("");
+	}
+	if($("#repassword").val()!=''&&password!=repassword) {
+		$("#repasswordTip").html("两次密码输入不一致");
+	}
+});
+//确认密码失去焦点事件
+$("#repassword").blur(function(){
+	var password = $("#password").val();
+	var repassword = $("#repassword").val();
+	if(repassword==''){
+		$("#repasswordTip").html("确认密码不能为空");
+	}else if (password!=repassword) {
+		$("#repasswordTip").html("两次密码输入不一致");
+	}else if (password.length<6) {
+		$("#repasswordTip").html("密码长度必须大于6位");
+	}else{
+		$("#repasswordTip").html("");
+	}
+});
+document.getElementById("sendSmsBtn").onclick=function(){time(this);} 
+var wait=60;  
+function time(o) {
+	var phoneNumber = $("#phoneNumber").val();
+	if(!checkMobile(phoneNumber)){
+		alert("电话号码有误，请核对后重试！");
+  		return;
+	}
+	if(wait == 60){
+		sendSmscode();
+	}
+	if (wait == 0) {  
+		o.removeAttribute("disabled");            
+        o.value="免费获取验证码";  
+        wait = 60;  
+	} else {  
+        o.setAttribute("disabled", true);  
+        o.value="重新发送(" + wait + ")";  
+        wait--;  
+        setTimeout(function() {  
+            time(o)  
+        },  
+        1000)  
+    }  
+} 
+
+function sendSmscode(){
+	var param = {
+		"phoneNumber":$("#phoneNumber").val()
+	};
+	var phoneNumber= $("#phoneNumber").val();
+	if(checkMobile(phoneNumber)){
+		$.postJSON("<%=request.getContextPath()%>/registAccount/sendPasswordVerifyCode",param,function(e){
+			if(e&&e.success){
+				$("#smsRandomCode").val(e.returnObject)
+			}else{
+				alert(e.error);
+			}
+		});
+	}else{
+		alert("电话号码有误，请核对后重试！");
+	}
+}
+
+function checkMobile(str) {
+    var re = /^1\d{10}$/
+    return re.test(str);
+}
+//验证身份证号
+function checkUserCode(userCode){
+	var isIDCard = /^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/;
+	if (isIDCard.test(userCode)) {
+		return true;
+	}else{
+		return false;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------
+function save(){debugger;
+	/* var userName = $("#userName").val();
+	if (userName=='') {
+		alert("用户姓名不能为空");
+		return;
+	} */
+	var phoneNumber = $("#phoneNumber").val();
+	if (!checkMobile(phoneNumber)) {
+		alert("手机号格式有误");
+		return;
+	}
+	/* var userCode = $("#userCode").val();
+	if (!checkUserCode(userCode)) {
+		alert("身份证格式不正确");
+		return;
+	}
+	var alarmNumber = $("#alarmNumber").val();
+	if (alarmNumber=='') {
+		alert("警号不能为空");
+		return;
+	} */
+	var smsCode = $("#smsCode").val();
+	if (smsCode=='') {
+		alert("验证码不能为空");
+		return;
+	}
+	var smsRandomCode = $("#smsRandomCode").val();
+	var password = $("#password").val();
+	var repassword = $("#repassword").val();
+	if (password.length<6) {
+		alert("密码长度必须大于6位");
+	}
+	if (repassword.length<6) {
+		alert("密码长度必须大于6位");
+	}
+	if (password!=repassword) {
+		alert("两次密码输入不一致");
+	}else{
+		$("#repasswordTip").html("");
+	}
+	if(repassword.length>=6&&password==repassword){
+		debugger;
+		var param = {
+				"phoneNumber":phoneNumber,
+				"smsRandomCode":smsRandomCode,
+				"newPassword":password,
+				"smsCode":smsCode
+		}
+		$.postJSON("<%=request.getContextPath()%>/talentsLoginController/talentsChangeNewInformation",param,function(e){
+			if(e&&e.success){
+				alert("密码修改成功");
+			}else{
+				alert(e.error);
+			}
+		});
+		
+	}
+}
+//密码失去焦点事件
+$("#password").blur(function(){
+	var password = $("#password").val();
+	if(password==''){
+		$("#passwordTip").html("新设密码不能为空");
+	}else if (password.length<6) {
+		alert("密码长度必须大于6位");
+	}else{
+		$("#passwordTip").html("");
+	}
+	if($("#repassword").val()!=''&&password!=repassword) {
+		alert("两次密码输入不一致");
+	}
+});
+//确认密码失去焦点事件
+$("#repassword").blur(function(){
+	var password = $("#password").val();
+	var repassword = $("#repassword").val();
+	if(repassword==''){
+		$("#repasswordTip").html("确认密码不能为空");
+	}else if (password!=repassword) {
+		alert("两次密码输入不一致");
+	}else if (password.length<6) {
+		alert("密码长度必须大于6位");
+	}else{
+		$("#repasswordTip").html("");
+	}
+});
+document.getElementById("sendSmsBtn").onclick=function(){time(this);} 
+var wait=60;  
+function time(o) {debugger;
+	var phoneNumber = $("#phoneNumber").val();
+	if(!checkMobile(phoneNumber)){
+		alert("电话号码有误，请核对后重试！");
+  		return;
+	}
+	if(wait == 60){
+		sendSmscode();
+	}
+	if (wait == 0) {  
+		o.removeAttribute("disabled");            
+        o.value="免费获取验证码";  
+        wait = 60;  
+	} else {  
+        o.setAttribute("disabled", true);  
+        o.value="重新发送(" + wait + ")";  
+        wait--;  
+        setTimeout(function() {  
+            time(o)  
+        },  
+        1000)  
+    }  
+} 
+
+function sendSmscode(){
+	var param = {
+		"phoneNumber":$("#phoneNumber").val()
+	};
+	var phoneNumber= $("#phoneNumber").val();
+	if(checkMobile(phoneNumber)){
+		$.postJSON("<%=request.getContextPath()%>/talentsLoginController/sendPasswordVerifyCode",param,function(e){
+			if(e&&e.success){
+				$("#smsRandomCode").val(e.returnObject)
+			}else{
+				alert(e.error);
+			}
+		});
+	}else{
+		alert("电话号码有误，请核对后重试！");
+	}
+}
+
+function checkMobile(str) {
+    var re = /^1\d{10}$/
+    return re.test(str);
+}
+//验证身份证号
+function checkUserCode(userCode){
+	var isIDCard = /^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/;
+	if (isIDCard.test(userCode)) {
+		return true;
+	}else{
+		return false;
+	}
+}
+function tanlentsRegistrationInformation(){ debugger;
+window.location = "<%=request.getContextPath()%>/registration.jsp";
+}
+function reset(){
+	window.location.reload();
+}

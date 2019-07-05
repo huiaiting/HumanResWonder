@@ -1,0 +1,86 @@
+.caseroom-box {
+  display: inline-block;
+  padding: 0 30px 25px;
+  border: 1px solid #d3d3d3;
+  background: #F7F7F8;
+}
+.caseroom-box .title {
+  margin: 10px 0;
+  font-size: 16px;
+  text-align: center;
+  color: #56A3E4;
+}
+.caseroom-box .tr {
+  height: 80px;
+  line-height: 80px;
+}
+.caseroom-box .tr > span {
+  margin-right: 10px;
+}
+.caseroom-box .check-form {
+  vertical-align: middle;
+}
+.caseroom-box th {
+  font-weight: 400;
+}
+.caseroom-box .dropdown .input {
+  text-align: center;
+  color: #56a3e4;
+}
+.caseroom-box .dropdown .select {
+  width: auto;
+}
+.casebox-tab {
+  display: inline-block;
+  margin: 6px 12px;
+  width: 36px;
+  font-size: 16px;
+  color: #fff;
+  line-height: 24px;
+}
+.casebox-tab:link {
+  text-decoration: underline;
+}
+.tab-switch2 {
+  margin-bottom: 20px;
+  padding-left: 20px;
+  line-height: 37px;
+  border-bottom: 1px solid #56a3e4;
+}
+.tab-switch2 a {
+  width: auto;
+  min-width: 90px;
+  background: #fff;
+}
+.tab-switch2 a:hover,
+.tab-switch2 a.selected {
+  border-top: 5px solid #56A3E4;
+  border-right: 1px solid #56A3E4;
+  border-bottom: 1px solid #fff;
+  border-left: 1px solid #56A3E4;
+}
+.btn-color {
+  color: #56A3E4;
+  background: none;
+  border: 1px solid #56a3e4;
+}
+.grid-form .pager {
+  float: right;
+  margin: 0 50px 4px;
+}
+.grid-form .pager a {
+  width: 40px;
+  color: #000;
+  border-radius: 6px 0 0 6px;
+}
+.grid-form .pager a:hover {
+  color: #56a3e4;
+}
+.grid-top {
+  padding-top: 0;
+  width: auto;
+  text-align: center;
+}
+.grid-top .caseroom-box {
+  float: left;
+}

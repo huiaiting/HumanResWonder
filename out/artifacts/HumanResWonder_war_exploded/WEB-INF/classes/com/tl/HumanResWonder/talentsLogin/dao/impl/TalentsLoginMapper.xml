@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.tl.gawzw.index.dao.impl">
+	<!--加载首页页面 数据查询 -->
+<insert id="insertTanlentsInformation" parameterType="map">
+INSERT INTO login_info(
+hum_Name,
+hum_passWord) 
+VALUES
+(#{userName},#{passWordNu});
+</insert>
+<insert id="talentsRegistrationInformation" parameterType="map">
+INSERT INTO registration_info(
+reg_Name,
+reg_phoneNum,
+reg_idCode,
+reg_emailNum,
+reg_postNum,
+reg_downNum,
+reg_passWord
+) 
+VALUES
+(#{userName},#{phoneNumber},#{userCode},#{alarmNumber},#{postNumber},#{downNumber},#{password});
+</insert>
+
+</mapper>

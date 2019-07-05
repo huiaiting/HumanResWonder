@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	<!-- 是否启动AOP权限控制 -->
+	<global-method-security pre-post-annotations="enabled">
+		<!--
+			AspectJ pointcut expression that locates our "post" method and
+			applies security that way <protect-pointcut expression="execution(*
+			bigbank.*Service.post*(..))" access="ROLE_TELLER"/>
+		-->
+	</global-method-security>
+
+	<!--  常用资源不过滤 -->
+	<http pattern="/resources/**" security="none"></http>
+	<http pattern="/talentsLoginController/**" security="none"></http>
+	<http pattern="/tanlentsRegistrationController/**" security="none"></http>
+	<http pattern="/**/*.jpg" security="none"></http>
+	<http pattern="/**/*.png" security="none"></http>
+	<http pattern="/**/*.gif" security="none"></http>
+	<http pattern="/**/*.css" security="none"></http>
+	<http pattern="/**/*.js" security="none"></http>
+	<http pattern="/**/*.html" security="none"></http>
+	<http pattern="/templet/*.jsp" security="none"></http>
+	<http pattern="/templetController/**" security="none"></http>
+	<http pattern="/listController/**" security="none"></http>
+	<http pattern="/listContentController/**" security="none"></http>
+	<!-- 微信接入入口不过滤 -->
+	<!-- <http pattern="/WeixinServlet" security="none"></http> -->
+	<!--
+		超时、禁止访问、页面找不到页面不过滤 <http pattern="/sessiontimeout.jsp"
+		security="none"></http>
+	-->
+	<http pattern="/404.jsp" security="none"></http>
+	<http pattern="/windowsPage/getbackPwd.jsp" security="none"></http>
+	<http pattern="/windowsPage/registration.jsp" security="none"></http>
+	<http pattern="/windowsPage/aLiBaBaPageJsp.jsp" security="none"></http>
+	<http pattern="/403.jsp" security="none"></http>
+	<http pattern="/505.jsp" security="none"></http>
+	<!-- 登陆 不过滤
+	<http pattern="/login1.jsp" security="none"></http>-->
+	<!-- 静态化模版不过滤 -->
+	<http pattern="/templet/**" security="none"></http>
+	<http pattern="/publish/html/cms/**" security="none"></http>
+	<http pattern="/*/index.html" security="none"></http>
+	<http pattern="/ssoajax.jsp" security="none"></http>
+    <http pattern="/ssoajaxcallback.jsp" security="none"></http>
+
+	<!-- 对外数据接口不过滤 -->
+	<http pattern="/rest/**" security="none"></http>
+
+	<!-- access-decision-manager-ref="baseAccessDecisionManager"-->
+	<http auto-config="false" use-expressions="true" entry-point-ref="casAuthEntryPoint"
+		access-denied-page="/403.jsp">
+
+		<intercept-url pattern="/**/*" access="authenticated" />
+		<!---->
+		<session-management invalid-session-url="/j_spring_cas_security_check"
+			session-fixation-protection="none">
+			<concurrency-control max-sessions="1"
+				error-if-maximum-exceeded="true" />
+		</session-management>
+
+		<custom-filter ref="casAuthenticationFilter" position="CAS_FILTER" />
+		<custom-filter ref="requestSingleLogoutFilter" before="LOGOUT_FILTER" />
+		<custom-filter ref="singleLogoutFilter" before="CAS_FILTER" />
+		<custom-filter ref="baseSaveRequestUrlFilter" before="SESSION_MANAGEMENT_FILTER" />
+		<custom-filter ref="baseSecurityFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+	</http>
+
+
+	<!-- 保存首次请求地址过滤器 -->
+	<beans:bean id="baseSaveRequestUrlFilter"
+		class="com.xc.opal.security.filter.BaseSecuritySaveRequestUrlFilter">
+		<!--
+			<beans:property name="excludeUrl"
+			value="/j_spring_cas_security_check,/j_spring_security_logout" />
+		-->
+	</beans:bean>
+	<!-- 单点登录认证过滤器 -->
+	<beans:bean id="casAuthenticationFilter"
+		class="org.springframework.security.cas.web.CasAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="authenticationFailureHandler"
+			ref="authenticationFailureHandler" />
+		<beans:property name="authenticationSuccessHandler"
+			ref="authenticationSuccessHandler" />
+		<beans:property name="filterProcessesUrl" value="/j_spring_cas_security_check" />
+	</beans:bean>
+
+	<!-- cas 认证失败控制器 -->
+	<beans:bean id="authenticationFailureHandler"
+		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<beans:property name="defaultFailureUrl"
+			value="${ISC_SSO_URL}/login?service=${APP_URL}" />
+	</beans:bean>
+
+	<!-- cas 认证成功控制器 -->
+	<beans:bean id="authenticationSuccessHandler"
+		class="com.xc.opal.security.authentication.BaseAuthenticationSuccessHandler"></beans:bean>
+
+	<!--
+		注销客户端,单点登出，用于应用1注销后，cas服务端会向所有登陆cas的应用发送注销的请求，这样同一用户在应用1注销后，其它应用也会接受cas服务的注销请求
+	-->
+	<beans:bean id="singleLogoutFilter"
+		class="org.jasig.cas.client.session.SingleSignOutFilter" />
+
+	<!-- 注销服务器端 ,注销地址后面带上应用访问地址，用于注销后返回到登陆页面且带上应用地址-->
+	<beans:bean id="requestSingleLogoutFilter"
+		class="org.springframework.security.web.authentication.logout.LogoutFilter">
+ 		<beans:constructor-arg value="${ISC_SSO_URL}/logout?service=${APP_URL}" /> 
+		<!--<beans:constructor-arg value="${APP_AJAX_URL}?logout=true" />-->
+		<beans:constructor-arg>
+			<beans:list>
+				<beans:bean
+					class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+				<beans:bean
+					class="com.xc.opal.security.authentication.logout.BaseLogoutSSOHandler"></beans:bean>
+			</beans:list>
+		</beans:constructor-arg>
+		<beans:property name="filterProcessesUrl" value="/j_spring_security_logout" />
+	</beans:bean>
+
+	<!-- 登录成功后的返回地址 -->
+	<beans:bean id="serviceProperties"
+		class="org.springframework.security.cas.ServiceProperties">
+		<beans:property name="service" value="${APP_URL}" />
+		<!-- sendRenew 为 boolean 类型 当为 true 时每新打开窗口则需重新登录 -->
+		<beans:property name="sendRenew" value="false" />
+	</beans:bean>
+
+	<!--
+		CAS认证切入点，声明cas服务器端登录的地址,用户请求被保护的地址时抛出认证异常，而异常的切入点是本bean，从而重定向到SSO
+	-->
+	<beans:bean id="casAuthEntryPoint"
+		class="com.xc.opal.security.authentication.cas.BaseCasAuthenticationEntryPoint">
+		<beans:property name="loginUrl" value="${ISC_SSO_URL}/login" />
+		<beans:property name="serviceProperties" ref="serviceProperties" />
+	</beans:bean>
+
+	<!-- cas认证提供器，定义客户端的验证方式 -->
+	<beans:bean id="casAuthenticationProvider"
+		class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
+		<!-- 客户端只验证用户名是否合法 -->
+		<beans:property name="authenticationUserDetailsService">
+			<beans:bean
+				class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+				<beans:constructor-arg ref="baseUserDetailService" />
+			</beans:bean>
+		</beans:property>
+		<beans:property name="serviceProperties" ref="serviceProperties" />
+		<beans:property name="ticketValidator">
+			<beans:bean
+				class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
+				<beans:constructor-arg index="0" value="${ISC_SSO_URL}" />
+			</beans:bean>
+		</beans:property>
+		<!-- 其他业务应用应修改此key，用以表示不同的应用key -->
+		<beans:property name="key" value="opal-isc-cas" />
+	</beans:bean>
+
+	<!--  -->
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="casAuthenticationProvider" />
+	</authentication-manager>
+
+	<!--
+		事件日志 <beans:bean id="loggerListener"
+		class="org.springframework.security.authentication.event.LoggerListener"
+		/>
+	-->
+
+	<!-- 获取客户端用户 -->
+	<beans:bean id="baseUserDetailService"
+		class="com.xc.opal.security.filter.BaseUserDetailsService" />
+
+	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源。-->
+	<beans:bean id="baseAccessDecisionManager"
+		class="com.xc.opal.security.filter.BaseAccessDecisionManager">
+	</beans:bean>
+
+	<!--
+		安全URL拦截器 :
+		FilterSecurityIntercepto，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性，
+		我们的所有控制将在这三个类中实现，解释详见具体配置
+	-->
+	<beans:bean id="baseSecurityFilter"
+		class="com.xc.opal.security.filter.BaseSecurityInterceptorFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="accessDecisionManager" ref="baseAccessDecisionManager" />
+		<beans:property name="securityMetadataSource" ref="baseSecurityMetadataSource" />
+	</beans:bean>
+
+	<!-- 资源源数据定义，将所有的资源和权限对应关系建立起来，即定义某一资源可以被哪些角色去访问。 -->
+	<beans:bean id="baseSecurityMetadataSource"
+		class="com.xc.opal.security.filter.BaseInvocationSecurityMetadataSourceService">
+	</beans:bean>
+
+	<!--替换掉spring security的资源文件-->
+	<beans:bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basename"
+			value="classpath:org/springframework/security/messages_zh_CN" />
+	</beans:bean>
+
+</beans:beans>

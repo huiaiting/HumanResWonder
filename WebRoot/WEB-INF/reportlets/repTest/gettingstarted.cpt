@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20100901">
+<TableDataMap>
+<TableData name="ds1" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[con1]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT COUNT(CFG.AUTOTASK_ID) NUM, CASE CFG.IF_BROADCAST WHEN '00' THEN '采集任务' WHEN '01' THEN '终端对时' END TASK_TYPE
+  FROM R_AUTOTASK_CONFIG CFG
+ GROUP BY IF_BROADCAST
+ ORDER BY NUM ASC]]></Query>
+</TableData>
+</TableDataMap>
+<Report class="com.fr.report.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<RowHeight defaultValue="19">
+<![CDATA[19]]></RowHeight>
+<ColumnWidth defaultValue="72">
+<![CDATA[129,80,104,97,99,72,72,72,72,72]]></ColumnWidth>
+<CellElementList>
+<C c="1" r="0" cs="4" rs="2" s="0">
+<O>
+<![CDATA[任务类型统计]]></O>
+<Expand/>
+</C>
+<C c="1" r="2" cs="2" s="1">
+<O>
+<![CDATA[任务类型]]></O>
+<Expand/>
+</C>
+<C c="3" r="2" cs="2" s="1">
+<O>
+<![CDATA[任务数量]]></O>
+<Expand/>
+</C>
+<C c="1" r="3" cs="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="TASK_TYPE"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="3" r="3" cs="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="NUM"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+</CellElementList>
+<ReportSettings headerHeight="0.0" footerHeight="0.0">
+<PaperSetting>
+<PaperSize width="8.267716535433072" height="5.905511811023622"/>
+<Margin top="0.27" left="0.7500000000000002" bottom="0.27" right="0.7500000000000002"/>
+</PaperSetting>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+<ReportWriteAttr>
+<Submiter class="com.fr.report.write.BuiltInSQLSubmiter" name="内置SQL1">
+<Attributes dsName="FRDemo"/>
+<DMLConfig class="com.fr.report.write.config.IntelliDMLConfig">
+<Table schema="" name="SALES_BASIC"/>
+<ColumnConfig name="地区" isKey="false" skipUnmodified="false">
+<ColumnRow column="1" row="0"/>
+</ColumnConfig>
+<ColumnConfig name="销售员" isKey="false" skipUnmodified="false">
+<ColumnRow column="2" row="0"/>
+</ColumnConfig>
+<ColumnConfig name="产品" isKey="false" skipUnmodified="false">
+<ColumnRow column="3" row="0"/>
+</ColumnConfig>
+<ColumnConfig name="销量" isKey="false" skipUnmodified="false">
+<ColumnRow column="3" row="0"/>
+</ColumnConfig>
+</DMLConfig>
+</Submiter>
+</ReportWriteAttr>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="false" delayPlaying="true" windowPosition="1" align="0"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="1" size="20"/>
+<Background name="ColorBackground" color="-3342337"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="1" size="12"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style>
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+</StyleList>
+</WorkBook>

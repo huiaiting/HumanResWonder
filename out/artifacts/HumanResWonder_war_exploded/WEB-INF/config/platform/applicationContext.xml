@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/tx 
+			http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-3.2.xsd
+			http://www.springframework.org/schema/util 
+			http://www.springframework.org/schema/util/spring-util-3.2.xsd
+			http://www.springframework.org/schema/cache 
+			http://www.springframework.org/schema/cache/spring-cache-3.2.xsd
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+			http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<context:annotation-config />
+	<tx:annotation-driven />
+	<task:annotation-driven /><!-- 定时器开关 -->
+	<cache:annotation-driven cache-manager="cacheManager" />
+
+	<context:component-scan base-package="com.xc">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	<context:component-scan base-package="com.me">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	<context:component-scan base-package="com.tl">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	<context:component-scan base-package="com.qz">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<bean id="propertyConfigurer" class="com.xc.opal.base.utils.ApplicationPropertyUtils">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+			<list>
+				<value>/WEB-INF/config/platform/jdbc.properties</value>
+				<value>/WEB-INF/config/platform/platform.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="idleConnectionTestPeriodInMinutes" value="60" />
+		<property name="idleMaxAgeInMinutes" value="240" />
+		<property name="partitionCount" value="3" />
+		<property name="maxConnectionsPerPartition" value="30" />
+		<property name="minConnectionsPerPartition" value="10" />
+		<property name="acquireIncrement" value="5" />
+		<property name="statementsCacheSize" value="100" />
+		<property name="releaseHelperThreads" value="3" />
+		<property name="statementReleaseHelperThreads" value="3" />
+	</bean>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="transactionTemplatedev"
+		class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>    
+    
+	<bean id="taskExecutor"   
+        class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">  
+                <property name="corePoolSize" value="5" /> 
+                <property name ="keepAliveSeconds" value ="300" /> 
+                <property name="maxPoolSize" value="100" />  
+                <property name ="queueCapacity" value ="25" />
+                <property name="WaitForTasksToCompleteOnShutdown" value="true" />  
+    </bean>       
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 自动扫描映射xml文件，可以多个 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath*:com/xc/**/*Mapper.xml</value>
+				<value>classpath*:com/gd/**/*Mapper.xml</value>
+				<value>classpath*:com/tl/**/*Mapper.xml</value>
+				<value>classpath*:com/qz/**/*Mapper.xml</value>
+			</list>
+		</property>
+
+	</bean>
+	<!--MyBatis的sqlSession配置 -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	<bean id="ApplicationHelper" class="com.xc.opal.base.common.ApplicationHelper"></bean>
+
+	<!-- cache -->
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
+		p:cache-manager-ref="ehcache" />
+	<bean id="ehcache"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+		p:config-location="/WEB-INF/config/platform/ehcache.xml" />
+
+	<!-- restTemplate配置 -->
+	<bean id="httpClientFactory"
+		class="com.xc.opal.common.resttemplate.HttpClientHttpRequestFactory">
+		<constructor-arg type="java.lang.String" value="http" />
+		<constructor-arg type="java.lang.String" value="9090" />
+	</bean>
+
+	<bean id="restTemplate" class="com.xc.opal.common.resttemplate.OpalRestTemplate">
+		<constructor-arg ref="httpClientFactory" />
+		<property name="restUrl" value="${ISC_ADAPTER_URL}" />
+		<property name="messageConverters">
+			<list>
+				<bean
+					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+				<bean class="org.springframework.http.converter.FormHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	<!-- Avtiviti 工作流配置 -->
+	<!-- <import resource="applicationContext-activiti.xml" /> -->
+	<!-- AvtiveMq JMS消息服务配置 <import resource="applicationContext-activemq.xml" 
+		/> -->
+	<!-- <import resource="applicationContext-sms.xml" /> -->
+	
+	<import resource="applicationContext-msdk.xml" />
+
+</beans>

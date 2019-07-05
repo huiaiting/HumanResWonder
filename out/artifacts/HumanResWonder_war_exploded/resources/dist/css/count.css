@@ -1,0 +1,484 @@
+/*
+yanjin
+2017/06/13
+*/
+body{
+ background: #fff url('../img/beijing.png') 
+ }
+.nav-list {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 90px;
+  z-index: 10;
+  padding: 10px;
+  background: #56a2e3;
+}
+.nav-list li {
+  height: 30px;
+  line-height: 30px;
+}
+.nav-list li a {
+  text-align: left;
+  color: #fff;
+  padding: 0;
+  border: 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+.nav-list li a:hover {
+  text-decoration: underline;
+}
+.filter-condition .no-pleft {
+  padding-left: 0;
+}
+.count-title {
+  padding: 0 5px 5px 0;
+}
+.count-title .count-export {
+  float: right;
+  color: #56a2e3;
+  padding-left: 22px;
+  background: url(../img/icon-export.png) no-repeat left center;
+  cursor: pointer;
+}
+.count-title .count-sum span {
+  font-size: 16px;
+  color: #56a2e3;
+  margin: 0 3px;
+}
+.count-chart-list {
+  position: relative;
+}
+.count-chart-list .tab-menu {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  z-index: 1;
+}
+.count-chart-list .tab-room {
+  background: url(../img/icon-list-hover.png) no-repeat center center;
+}
+.count-chart-list .tab-room.selected {
+  background: #56A2E3 url(../img/icon-list.png) no-repeat center center;
+}
+.count-chart-list .tab-char {
+  background: url(../img/icon-graphics-hover.png) no-repeat center center;
+}
+.count-chart-list .tab-char.selected {
+  background: #56A2E3 url(../img/icon-graphics.png) no-repeat center center;
+}
+.caseroom-grid {
+  height: 32px;
+  margin: 15px 9px;
+}
+.caseroom-grid .pager {
+  float: right;
+  margin: 0;
+}
+.caseroom-grid .dropdown {
+  float: right;
+  margin-right: 15px;
+}
+.caseroom-grid .s-radio {
+  float: left;
+  margin-top: 6px;
+}
+.modal-resetpsw-tip {
+  display: none;
+  margin: 0 34px 14px;
+}
+.modal-resetpsw-tip span {
+  color: #EFA32E;
+  padding: 0 8px;
+}
+.log-time {
+  padding-top: 10px;
+}
+.log-time .condition .type,
+.log-time .condition .detail-list {
+  display: inline-block;
+  padding-right: 10px;
+}
+.do-log-txt {
+  display: inline-block;
+  vertical-align: middle;
+  width: 210px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.do-detail-btn {
+  display: inline-block;
+  vertical-align: middle;
+  color: #56a2e3;
+  text-decoration: underline;
+  position: relative;
+}
+.do-log-detail {
+  display: none;
+}
+.do-txt-detail {
+  position: absolute;
+  right: -18px;
+  top: 42px;
+  width: 200px;
+  background: #fff;
+  text-align: left;
+  line-height: 20px;
+  border: 1px solid #56a2e3;
+  border-radius: 4px;
+  padding: 6px;
+  z-index: 1;
+}
+.do-tra-border,
+.do-tra-white {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 0;
+}
+.do-tra-border {
+  right: 0;
+  top: 32px;
+  border-bottom: 10px solid #56a2e3;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  z-index: 1;
+}
+.do-tra-white {
+  right: 1px;
+  top: 33px;
+  border-bottom: 10px solid #fff;
+  border-right: 9px solid transparent;
+  border-left: 9px solid transparent;
+  z-index: 2;
+}
+.set-flow-search {
+  padding: 20px 0 0  10px;
+}
+.set-flow-search .condition {
+  height: 32px;
+}
+.set-flow-search .condition .type {
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 10px;
+}
+.set-flow-search .condition .detail-list {
+  display: inline-block;
+  vertical-align: middle;
+}
+.flow-title {
+  height: 30px;
+  padding: 20px 10px 0;
+}
+.flow-title .flow-add-btn {
+  float: right;
+  padding: 5px 10px 5px 22px;
+  background: #56a2e3 url(../img/icon-add-w.png) no-repeat 6px center;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.flow-title .count-sum {
+  line-height: 30px;
+}
+.flow-table {
+  padding: 0 10px 20px;
+}
+.flow-table table {
+  width: 100%;
+  border-spacing: 0 10px;
+}
+.flow-table table th {
+  background: #F6F5F4;
+  font-weight: normal;
+  height: 36px;
+}
+.flow-table table td {
+  border: 1px solid #E0DFDF;
+}
+.flow-table table .flow-name {
+  border-right: 0;
+  padding-left: 10px;
+}
+.flow-table table .flow-name .font-blue {
+  font-size: 15px;
+  color: #56a2e3;
+  line-height: 24px;
+}
+.flow-table table .flow-name .font-gray {
+  color: #999;
+  line-height: 24px;
+}
+.flow-table table .flow-detail {
+  border-right: 0;
+  padding: 0 10px;
+}
+.flow-table table .flow-detail .flow-child {
+  width: 70px;
+  height: 70px;
+  border-radius: 70px;
+  float: left;
+  position: relative;
+}
+.flow-table table .flow-detail .flow-child > div {
+  width: 70px;
+  height: 70px;
+  border-radius: 70px;
+  color: #fff;
+  text-align: center;
+}
+.flow-table table .flow-detail .flow-child .flow-child-name {
+  background: #56a2e3;
+  display: table;
+}
+.flow-table table .flow-detail .flow-child .flow-child-name span {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0 5px;
+}
+.flow-table table .flow-detail .flow-child .flow-child-do {
+  display: none;
+  position: absolute;
+  top: 0 ;
+  left: 0;
+  background: #96B8C9;
+}
+.flow-table table .flow-detail .flow-child .flow-child-do span {
+  display: block;
+  height: 20px;
+  margin: 14px 0 -10px;
+  cursor: pointer;
+}
+.flow-table table .flow-detail .flow-child .flow-child-do span:hover {
+  text-decoration: underline;
+}
+.flow-table table .flow-detail .flow-direction {
+  float: left;
+  width: 40px;
+  height: 70px;
+  background: url(../img/icon-flow-right.png) no-repeat center center;
+}
+.flow-table table .flow-detail .flow-child-add {
+  float: left;
+  width: 70px;
+  height: 70px;
+}
+.flow-table table .flow-detail .flow-child-add img {
+  width: 100%;
+}
+.flow-table table .flow-do div {
+  width: 60px;
+  height: 22px;
+  line-height: 22px;
+  margin: 10px auto;
+  text-align: center;
+  cursor: pointer;
+}
+.flow-table table .flow-do .bg-btn {
+  color: #fff;
+  border-radius: 4px;
+}
+.flow-table table .flow-do .stop-btn {
+  background: #96B8C9;
+}
+.flow-table table .flow-do .start-btn {
+  background: #56a2e3;
+}
+.delete-warn {
+  text-align: center;
+  height: 28px;
+  line-height: 28px;
+  padding: 20px 0 40px;
+}
+.delete-warn img {
+  width: 28px;
+  vertical-align: middle;
+  margin: 0 5px;
+}
+.delete-warn span {
+  display: inline-block;
+  vertical-align: middle;
+}
+.flow-dialog {
+  height: 400px;
+}
+.flow-dialog .input-group {
+  float: left;
+  width: 100%;
+}
+.flow-dialog .input-group .txt {
+  display: inline-block;
+  line-height: 30px;
+}
+.flow-dialog .bg-gray {
+  background: #F7F7F6;
+}
+.flow-dialog .group-two {
+  width: 50%;
+}
+.flow-dialog .dropdown-form {
+  width: 252px;
+}
+.flow-dialog .added-man {
+  display: inline-block;
+  padding: 5px;
+  background: #EBF5FC;
+  border: 1px solid #c8c8c8;
+  vertical-align: middle;
+  margin-right: 10px;
+  position: relative;
+}
+.flow-dialog .added-man .delete-man {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 14px;
+  background: #8CB7D2 url(../img/icon-close-small.png) no-repeat center center;
+  cursor: pointer;
+}
+.flow-dialog .add-man-btn {
+  display: inline-block;
+  padding: 5px 10px;
+  vertical-align: middle;
+  background: #56a2e3;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.nopadding-dialog.index-dialog-small {
+  padding: 0 !important;
+  width: 430px;
+}
+.add-approve {
+  overflow: hidden;
+  border-bottom: 1px solid #D5D2CD;
+  margin-bottom: 30px;
+}
+.man-check {
+  float: left;
+  width: 215px;
+  border-right: 1px solid #D5D2CD;
+  min-height: 260px;
+}
+.man-check .search {
+  text-align: center;
+  position: relative;
+  margin: 10px 0;
+}
+.man-check .search input {
+  width: 160px;
+  padding: 0 20px 0 2px;
+  height: 24px;
+}
+.man-check .search img {
+  position: absolute;
+  right: 19px;
+  top: 4px;
+  cursor: pointer;
+}
+.man-check .my-tree {
+  margin-left: 15px;
+}
+.man-check .my-tree .child-list {
+  margin-left: 18px;
+  display: none;
+}
+.man-check .my-tree .list-title {
+  overflow: hidden;
+  height: 24px;
+  line-height: 24px;
+  cursor: pointer;
+}
+.man-check .my-tree .list-title span {
+  display: inline-block;
+}
+.man-check .my-tree .list-title img,
+.man-check .my-tree .list-title span {
+  vertical-align: middle;
+}
+.man-check .my-tree .list-title img.open {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+.man-check .my-tree .floor-first > .list-title {
+  font-weight: bold;
+}
+.man-check .my-tree .floor-last {
+  height: 24px;
+  line-height: 24px;
+}
+.man-check .my-tree .floor-last .check-box {
+  float: right;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #D7DFDD;
+  border-radius: 16px;
+  margin: 3px 40px 0 0;
+}
+.man-check .my-tree .floor-last .check-box span {
+  display: block;
+  width: 9px;
+  height: 4px;
+  margin: 3px 0 0 3px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+.man-check .my-tree .floor-last .check-box.checked {
+  border: 1px solid #56a2e3;
+  background: #56a2e3;
+}
+.man-checked {
+  float: left;
+  width: 214px;
+}
+.man-checked .man-checked-sum {
+  margin: 14px 10px;
+}
+.man-checked .man-checked-sum span {
+  color: #56a2e3;
+  padding: 0 6px;
+}
+.man-checked .man-checked-list {
+  margin: 0 36px 0 26px;
+}
+.man-checked .man-checked-list .close {
+  float: right;
+  width: 18px;
+  height: 18px;
+  border-radius: 18px;
+  background: url(../img/icon-close-small.png) center center no-repeat #8CB7D2;
+  cursor: pointer;
+}
+.index-dialog .dropdown-area {
+  width: 160px !important;
+}
+.index-dialog .dropdown-area .input {
+  width: 104px;
+}
+.label-must {
+  display: inline-block;
+  vertical-align: middle;
+  color: #ff0000;
+  padding-right: 3px;
+}
+.gray-group2 {
+  font-size: 16px;
+}
+.gray-group2 .input-group {
+  font-size: 16px;
+}
+.gray-group2 .input-group-two {
+  width: 50%;
+  float: left;
+  font-size: 16px;
+}
+.gray-group2 .right-icon {
+  margin: 0 0 0 30px;
+}

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/security 
+        http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	<!-- 是否启动AOP权限控制 -->
+	<global-method-security pre-post-annotations="enabled">
+		<!-- AspectJ pointcut expression that locates our "post" method and applies 
+			security that way <protect-pointcut expression="execution(* bigbank.*Service.post*(..))" 
+			access="ROLE_TELLER"/> -->
+	</global-method-security>
+	<!-- 常用资源不过滤 -->
+	<http pattern="/resources/**" security="none"></http>
+	<http pattern="/talentsLoginController/**" security="none"></http>
+	<http pattern="/tanlentsRegistrationController/**" security="none"></http>
+	<http pattern="/**/*.jpg" security="none"></http>
+	<http pattern="/**/*.png" security="none"></http>
+	<http pattern="/**/*.gif" security="none"></http>
+	<http pattern="/**/*.css" security="none"></http>
+	<http pattern="/**/*.js" security="none"></http>
+	<http pattern="/**/*.html" security="none"></http>
+	<!-- 超时、禁止访问、页面找不到页面不过滤 -->
+	<http pattern="/sessiontimeout.jsp" security="none"></http>
+	<http pattern="/404.jsp" security="none"></http>
+	<http pattern="/windowsPage/registration.jsp" security="none"></http>
+	<http pattern="/windowsPage/getbackPwd.jsp" security="none"></http>
+	<http pattern="/windowsPage/aLiBaBaPageJsp.jsp" security="none"></http>
+	<http pattern="/403.jsp" security="none"></http>
+	<http pattern="/505.jsp" security="none"></http>
+	<http pattern="/templet/*.jsp" security="none"></http>
+	<http pattern="/templetController/**" security="none"></http>
+	<http pattern="/listController/**" security="none"></http>
+	<http pattern="/listContentController/**" security="none"></http>
+	<!-- 登陆 不过滤 -->
+	<http pattern="/login.jsp" security="none"></http>
+	<!-- 注册 不过滤 -->
+	<http pattern="/views/base/main/registration.jsp" security="none"></http>
+	<!-- <http pattern="/base/isc/baseOrgUser/**" security="none"></http> -->
+	<!-- 对外数据接口不过滤 -->
+	<http pattern="/rest/**" security="none"></http>
+	<http pattern="/base/common/**" security="none"></http>
+	<!-- 应用认证不需要过滤 -->
+	<http pattern="/isc/app/authentication" security="none"></http>
+	<!-- 图片验证码不需要过滤 -->
+	<http pattern="/VerifyCodeServlet" security="none"></http>
+	<!-- 图片验证码比较不需要过滤 -->
+	<http pattern="/ResultServlet" security="none"></http>
+	<!-- APP服务端请求不需要过滤 -->
+	<http pattern="/apprequest" security="none"></http>
+	<!-- 注册不需要过滤 -->
+	<http pattern="/gawzwutils/**" security="none"></http>
+	<http pattern="/templet/**" security="none"></http>
+	<http pattern="/getbackPwd" security="none"></http>
+	<http pattern="/registration" security="none"></http>
+	<http pattern="/registration/**" security="none"></http>
+	<http pattern="/organization/**" security="none"></http>
+	<http pattern="/registAccount" security="none"></http>
+	<http pattern="/backPassword" security="none"></http>
+	<http pattern="/registAccount/**" security="none"></http>
+	<http auto-config="true" use-expressions="true"
+		access-denied-page="/403.jsp">
+		<!-- 除上述不需要过滤外，其它任何请求都需要登陆，也就是必须登陆拥有ROLE_USER 角色 <intercept-url pattern="/**" 
+			access="hasRole('ROLE_USER')" /> -->
+		<intercept-url pattern="/**/*" access="isAuthenticated()" />
+		<!-- default-target-url 登陆成功后跳转地址 ；login-processing-url 指定action可以做登录前的一些验证 
+			default-target-url 指定action可以做登录成功后的一些事 authentication-success-handler-ref="authenticationSuccessHandler" -->
+		<form-login login-page="/login.jsp"
+			authentication-failure-handler-ref="authenticationFailureHandler"
+			authentication-success-handler-ref="authenticationSuccessHandler" />
+			
+			
+		<!-- 登出,登出应该还有业务处理，如在线用户，要配置 success-handler-ref="" 其中，logout-success-url="/login1.jsp"和success-handler-ref只能二选一 
+			success-handler-ref="baseLogoutHandler" -->
+		<logout logout-url="/j_spring_security_logout"
+			invalidate-session="true" logout-success-url="/login.jsp" />
+		<!-- <remember-me data-source-ref="dataSource" /> -->
+		<session-management invalid-session-url="/sessiontimeout.jsp"
+			session-fixation-protection="none">
+			<concurrency-control max-sessions="1"
+				error-if-maximum-exceeded="true" />
+		</session-management>
+		<!-- <custom-filter ref="sysCheckFilter" before="FIRST"/> -->
+		<custom-filter ref="baseCustomeLoginFilter" before="FIRST" />
+		<custom-filter ref="baseSecurityFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+	</http>
+	<!--2017-02-24 二维码 -->
+	<beans:bean id="baseCustomeLoginFilter"
+		class="com.xc.opal.security.filter.BaseCustomLoginFilter"></beans:bean>
+	<!-- <beans:bean id="sysCheckFilter" -->
+	<!-- class="com.xc.opal.security.filter.BaseSecuritySysCheckFilter"></beans:bean> -->
+
+	<beans:bean id="authenticationSuccessHandler"
+		class="com.xc.opal.security.authentication.BaseAuthenticationSuccessHandler"></beans:bean>
+	<beans:bean id="authenticationFailureHandler"
+		class="com.xc.opal.security.authentication.BaseAuthenticationFailureHandler"></beans:bean>
+	<beans:bean id="baseLogoutHandler"
+		class="com.xc.opal.security.authentication.logout.BaseLogoutHandler"></beans:bean>
+	<!-- 安全URL拦截器 : FilterSecurityIntercepto，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性， 
+		我们的所有控制将在这三个类中实现，解释详见具体配置 -->
+	<beans:bean id="baseSecurityFilter"
+		class="com.xc.opal.security.filter.BaseSecurityInterceptorFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="accessDecisionManager" ref="baseAccessDecisionManager" />
+		<beans:property name="securityMetadataSource" ref="baseSecurityMetadataSource" />
+	</beans:bean>
+	<!-- 认证管理者 -->
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="authenticationProvider">
+		</authentication-provider>
+	</authentication-manager>
+	<!-- 认证提供者 -->
+	<beans:bean id="authenticationProvider"
+		class="com.xc.opal.security.authentication.dao.BaseDaoAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="baseUserDetailService"></beans:property>
+		<beans:property name="hideUserNotFoundExceptions"
+			value="false"></beans:property>
+		<beans:property name="passwordEncoder" ref="md5PasswordEncoder">
+		</beans:property>
+		<beans:property name="saltSource" ref="saltSource">
+		</beans:property>
+	</beans:bean>
+	<!-- 密码 提供者，MD5+用户名盐值加密,格式为：密码{用户账号} 或 密码{盐值} -->
+	<beans:bean id="md5PasswordEncoder"
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"></beans:bean>
+	<beans:bean id="saltSource"
+		class="com.xc.opal.security.authentication.dao.BaseSaltSource"></beans:bean>
+
+
+	<beans:bean id="baseUserDetailService"
+		class="com.xc.opal.security.filter.BaseUserDetailsService" />
+	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源。 -->
+	<beans:bean id="baseAccessDecisionManager"
+		class="com.xc.opal.security.filter.BaseAccessDecisionManager">
+	</beans:bean>
+	<!-- 资源源数据定义，将所有的资源和权限对应关系建立起来，即定义某一资源可以被哪些角色去访问。 -->
+	<beans:bean id="baseSecurityMetadataSource"
+		class="com.xc.opal.security.filter.BaseInvocationSecurityMetadataSourceService">
+	</beans:bean>
+	<!--替换掉spring security的资源文件 -->
+	<beans:bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basename"
+			value="classpath:org/springframework/security/messages_zh_CN" />
+	</beans:bean>
+</beans:beans>

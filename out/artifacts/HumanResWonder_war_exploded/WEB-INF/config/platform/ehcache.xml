@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache name="dataCache">
+	<defaultCache maxElementsInMemory="10000" eternal="false"
+		timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="true"
+		maxElementsOnDisk="10000000" diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU" />
+
+	<cache name="userPrivsCache" maxElementsInMemory="2000"
+		maxElementsOnDisk="0" eternal="false" overflowToDisk="false"
+		timeToIdleSeconds="0" timeToLiveSeconds="0" memoryStoreEvictionPolicy="LFU" />
+
+	<cache name="allPrivsCache" maxElementsInMemory="1000"
+		maxElementsOnDisk="0" eternal="false" overflowToDisk="false"
+		timeToIdleSeconds="0" timeToLiveSeconds="0" memoryStoreEvictionPolicy="LFU" />
+
+	<cache name="allParameterCodesCache" maxElementsInMemory="500"
+		maxElementsOnDisk="0" eternal="false" overflowToDisk="false"
+		timeToIdleSeconds="0" timeToLiveSeconds="0" memoryStoreEvictionPolicy="LFU" />
+
+	<cache name="authsCache" maxElementsInMemory="2000"
+		maxElementsOnDisk="0" eternal="false" overflowToDisk="false"
+		timeToIdleSeconds="0" timeToLiveSeconds="0" memoryStoreEvictionPolicy="LFU" />
+	<!-- 上面为基本缓存,不可变动 -->
+
+	<cache name="errorBuildingsCache" maxElementsInMemory="2000"
+		maxElementsOnDisk="0" eternal="false" overflowToDisk="false"
+		timeToIdleSeconds="0" timeToLiveSeconds="0" memoryStoreEvictionPolicy="LFU" />
+		
+	<!-- 标准代码缓存 -->
+	<cache name="codeTypeCache" maxElementsInMemory="2000"
+		maxElementsOnDisk="0" eternal="false" overflowToDisk="false"
+		timeToIdleSeconds="0" timeToLiveSeconds="0" memoryStoreEvictionPolicy="LFU" />
+	
+</ehcache>  

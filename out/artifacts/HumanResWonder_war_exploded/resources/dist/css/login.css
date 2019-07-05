@@ -1,0 +1,86 @@
+/*
+	author: hlweng
+	time: 2017-5-8
+ */
+.login-wrap {
+  padding: 80px 0 100px;
+  height: 395px;
+  background: #fff url('../img/login-bg.png') 100px 0 no-repeat;
+}
+.login-content {
+  margin: 0 210px 0 850px;
+  padding: 30px;
+  width: 270px;
+  height: 330px;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 0 10px #bbb;
+  -webkit-box-shadow: 0 0 10px #bbb;
+  -moz-box-shadow: 0px 0px 6px #bbb;
+}
+.login-content .tip {
+  display: block;
+  font-size: 20px;
+  color: #2588dd;
+  text-align: center;
+  line-height: 30px;
+}
+.login {
+  font-size: 14px;
+  color: #6d6d6d;
+}
+.login .error-tip {
+  display: block;
+  margin: 10px 0 15px;
+  text-align: center;
+  color: #ce8d28;
+  visibility: hidden;
+}
+.login .txt {
+  padding: 10px 35px;
+  margin-bottom: 26px;
+  width: 200px;
+  height: 20px;
+  border: 1px solid #c0c0c0;
+  background-position: 10px center;
+  background-repeat: no-repeat;
+}
+.login .txt input {
+  width: 100%;
+  height: 100%;
+  line-height: 20px;
+  border: 0;
+}
+.login .username {
+  background-image: url('../img/icon-user.png');
+}
+.login .pwd {
+  background-image: url('../img/icon-pwd.png');
+}
+.guida-info {
+  padding: 0 6px;
+  margin-top: -10px;
+}
+.guida-info a {
+  color: #6d6d6d;
+  text-decoration: none;
+}
+.guida-info a:hover {
+  text-decoration: underline;
+}
+.guida-info .forget-pwd {
+  float: right;
+}
+.guida-info .registered {
+  float: left;
+}
+.login-btn {
+  display: block;
+  margin-top: 50px;
+  width: 100%;
+  height: 42px;
+  background-color: #3996e5;
+  color: #fff;
+  line-height: 42px;
+  text-align: center;
+  letter-spacing: 5px;
+}

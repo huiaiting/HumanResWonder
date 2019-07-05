@@ -1,0 +1,44 @@
+1、form里面的label，文本的宽度保持一致，字数少的lable，中间用&nbsp;填充；
+
+2、div自定义分页，
+	一：在html代码需要添加分页效果处增加代码<nav id="setpage" class="page"></nav> ；
+	二：在js代码处添加方法
+		//初始化 
+		var pagesize,pageNum; 
+		//初始化 
+		pageNum = 1;//第几页
+		pagesize = 10; //每页10条数据
+		function gotopage+"id"(target) 
+		{    
+		    pageNum = target;        //把页面计数定位到第几页 
+		    getCheckArt();//调用显示页面函数显示第几页,这个功能是用在页面内容用ajax载入的情况 
+		} 
+	三：在数据加载回调函数处调用
+			var totalNum=parseInt(data.total);
+			var totalpage = Math.ceil(parseInt(data.total)/pagesize); //总页数
+			setpage(totalpage,pageNum,totalNum,pagesize,id);//id=page的id
+
+3、上传文件接口和目录规划
+	注：人员访问图片，首先访问应用服务器，应用服务器不存在，从ftp服务器上下载到应用服务器
+	一：在线教育中和人员无关的图片上传至ftp并在应用服务器端同时保存一份
+	ftp上的目录规划为：/home/ftpfile/edu/image/yyyy-mm-dd/{name}
+	应用服务器端为：onlineEdu/ueditor1.4.3/jsp/upload/edu/image/yyyy-mm-dd/{name}
+	调用接口地址为：webRootPath + '/main/utils/uploadImage',
+	返回参数为responseJSON格式，内容为图片的服务器路径
+
+	二：在线教育中和人员有关的图片上传至ftp并在应用服务器端同时保存一份
+	ftp上的目录规划为：/home/ftpfile/edu/personal/yyyy-mm-dd/{name}
+	应用服务器端为：onlineEdu/ueditor1.4.3/jsp/upload/edu/personal/yyyy-mm-dd/{name}
+	调用接口地址为：webRootPath + '/main/utils/uploadImage',
+	返回参数为responseJSON格式，内容为图片的服务器路径
+
+	三：附件上传，只上传至ftp，
+	目录规划为/home/ftpfile/edu/fujian/yyyy-mm-dd/{name}
+	调用接口地址为：webRootPath + '/main/utils/uploadFile,
+	返回参数为responseJSON格式，内容为文件实体对象
+	
+	
+	判断此图片是否存在调用地址为webRootPath + "/main/utils/checkupFile"，post请求参数为filePath为上传图片是返回的路径
+	var aa={
+		filePath:"ueditor1.4.3/jsp/upload/edu/image/2015-07-22/f362f2cf-7dad-4279-b1ff-c57aedfb3158.png"
+	};

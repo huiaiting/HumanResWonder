@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20100901">
+<TableDataMap>
+<TableData name="ds1" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="siteFaultId"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[con1]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT SCF.APP_NO, --申请编号
+       TO_CHAR(SCF.APP_DATE, 'YYYY-MM-DD HH24:MI:SS') APP_DATE, --申请时间
+       SCF.FAULT_DESC, --故障现象
+       TO_CHAR(SCF.FIND_TIME, 'YYYY-MM-DD HH24:MI:SS') FIND_TIME, --故障发现时间
+       SCF.FULLIN_MAN, --填报人
+       TO_CHAR(SCF.ENTRY_TIME, 'YYYY-MM-DD HH24:MI:SS') ENTRY_TIME, --故障填报时间
+       TO_CHAR(SSFR.ARRIVAL_TIME, 'YYYY-MM-DD HH24:MI:SS') ARRIVAL_TIME, --抵达现场日期时间
+       SSFR.MAINTAIN_PRINCIPAL, --维修负责人
+       TO_CHAR(SSFR.RESUME_TIME, 'YYYY-MM-DD HH24:MI:SS') RESUME_TIME, --恢复投运日期时间
+       SSFR.WATCH, --主台值班人
+       TO_CHAR(SSFR.HANDLE_DATE, 'YYYY-MM-DD HH24:MI:SS') HANDLE_DATE, --处理日期
+       SSFR.HANDLE_EMP_NO, --处理人员
+       SSFR.RESULT, --处理结果
+       SSFR.COME_OUT_REASON, --转出原因
+       SSFR.COME_OUT_MAN, --转出人
+       SSFR.ACCEPTER, --接收人
+       CT.FAMILY_ADDR, --家庭住址
+       CT.ADDR, --联系地址
+       CT.CONTACT_NAME, --联系人
+       CT.OFFICE_TEL, --办公电话
+       INFO.CONS_NAME, --用户名称
+       INFO.CONS_NO, --用户编号
+       M.NAME, --终端型号名称
+       M.RTUMODEL_ID, --终端型号标识
+       --FINDCODE.NAME AS FAULT_FIND_METHOD, --故障发现方式
+       --CPTYPECODE.NAME AS CPTYPE, --用户类型
+       EQUIP.ASSET_NO, --
+       C.CP_NO, --采集点编号
+       C.CP_ADDR, --采集点地址
+       R.TERMINAL_ID --终端资产型号
+  FROM R_CP_FAULT SCF
+  --LEFT JOIN P_CODE FINDCODE
+  --  ON FINDCODE.VALUE = SCF.FAULT_FIND_METHOD
+   --AND FINDCODE.P_CODE = '129'
+  LEFT JOIN R_SITE_FAULT_RMV SSFR
+    ON SSFR.SITE_FAULT_ID = SCF.SITE_FAULT_ID
+  LEFT JOIN R_CP C
+    ON C.CP_NO = SCF.CP_NO
+ -- LEFT JOIN P_CODE CPTYPECODE
+  --  ON C.CP_TYPE_CODE = CPTYPECODE.VALUE
+ --  AND CPTYPECODE.P_CODE = '101'
+  LEFT JOIN R_CP_CONS_RELA RCPCONS --采集用户信息
+    ON RCPCONS.CP_NO = C.CP_NO
+  LEFT JOIN C_CONS INFO --用户信息
+    ON INFO.CONS_ID = RCPCONS.CONS_ID
+  LEFT JOIN C_CONTACT CT --联系信息
+    ON INFO.CUST_ID = CT.CUST_ID
+  LEFT JOIN R_TMNL_RUN R
+    ON R.CP_NO = C.CP_NO
+  LEFT JOIN R_TMNL_MODEL M
+    ON R.RTUMODEL_ID = M.RTUMODEL_ID
+  LEFT JOIN D_LC_EQUIP EQUIP
+    ON R.TERMINAL_ID = TO_CHAR(EQUIP.ID)
+ WHERE SCF.SITE_FAULT_ID = '${siteFaultId}'
+]]></Query>
+</TableData>
+</TableDataMap>
+<ReportWebAttr>
+<ServerPrinter/>
+<WebPageContent>
+<ToolBars/>
+<WebPage isPage="false" isShowAsImage="false"/>
+</WebPageContent>
+<WebWriteContent>
+<ToolBars/>
+<SelectedColor color="-10033153"/>
+</WebWriteContent>
+<Background name="NullBackground"/>
+<CacheValidateTime>
+<![CDATA[0]]></CacheValidateTime>
+</ReportWebAttr>
+<Report class="com.fr.report.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<RowHeight defaultValue="19">
+<![CDATA[40,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,65,28,19]]></RowHeight>
+<ColumnWidth defaultValue="72">
+<![CDATA[119,112,141,96,50,129,72,72,72,72,72]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" cs="6" s="0">
+<O>
+<![CDATA[现场消缺单]]></O>
+<Expand/>
+</C>
+<C c="0" r="1" s="1">
+<O>
+<![CDATA[流水号]]></O>
+<Expand/>
+</C>
+<C c="1" r="1" s="2">
+<O>
+<![CDATA[]]></O>
+<Expand/>
+</C>
+<C c="2" r="1" s="3">
+<O>
+<![CDATA[时间]]></O>
+<Expand/>
+</C>
+<C c="3" r="1" cs="3" s="4">
+<Expand/>
+</C>
+<C c="0" r="2" s="1">
+<O>
+<![CDATA[用户名称]]></O>
+<Expand/>
+</C>
+<C c="1" r="2" s="3">
+<O>
+<![CDATA[用户编号]]></O>
+<Expand/>
+</C>
+<C c="2" r="2" s="3">
+<O>
+<![CDATA[地址]]></O>
+<Expand/>
+</C>
+<C c="3" r="2" cs="2" s="3">
+<O>
+<![CDATA[终端型号]]></O>
+<Expand/>
+</C>
+<C c="5" r="2" s="5">
+<O>
+<![CDATA[终端编号]]></O>
+<Expand/>
+</C>
+<C c="0" r="3" s="6">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="CONS_NAME"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="1" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="CONS_NO"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="2" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="FAMILY_ADDR"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="3" r="3" cs="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="NAME"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="5" r="3" s="4">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="TERMINAL_ID"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="0" r="4" cs="2" s="1">
+<O>
+<![CDATA[采集点编号]]></O>
+<Expand/>
+</C>
+<C c="2" r="4" s="3">
+<O>
+<![CDATA[单位地址]]></O>
+<Expand/>
+</C>
+<C c="3" r="4" cs="2" s="3">
+<O>
+<![CDATA[联系人]]></O>
+<Expand/>
+</C>
+<C c="5" r="4" s="5">
+<O>
+<![CDATA[电话]]></O>
+<Expand/>
+</C>
+<C c="0" r="5" cs="2" s="6">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="CP_NO"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="2" r="5" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="ADDR"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="3" r="5" cs="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="CONTACT_NAME"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="5" r="5" s="4">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="OFFICE_TEL"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="0" r="6" cs="2" s="1">
+<O>
+<![CDATA[终端资产编号]]></O>
+<Expand/>
+</C>
+<C c="2" r="6" rs="6" s="3">
+<O>
+<![CDATA[故障现象]]></O>
+<Expand/>
+</C>
+<C c="3" r="6" cs="3" rs="6" s="4">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="FAULT_DESC"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="0" r="7" cs="2" s="6">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="ASSET_NO"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="0" r="8" cs="2" s="1">
+<O>
+<![CDATA[采集点类型]]></O>
+<Expand/>
+</C>
+<C c="0" r="9" cs="2" s="6">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="CPTYPE"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="0" r="10" cs="2" s="1">
+<O>
+<![CDATA[故障来源]]></O>
+<Expand/>
+</C>
+<C c="0" r="11" cs="2" s="6">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="FAULT_FIND_METHOD"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="0" r="12" s="1">
+<O>
+<![CDATA[故障出现时间]]></O>
+<Expand/>
+</C>
+<C c="1" r="12" s="3">
+<O>
+<![CDATA[填报人]]></O>
+<Expand/>
+</C>
+<C c="2" r="12" rs="6" s="3">
+<O>
+<![CDATA[现场故障情况]]></O>
+<Expand/>
+</C>
+<C c="3" r="12" cs="3" rs="6" s="4">
+<Expand/>
+</C>
+<C c="0" r="13" s="6">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="FIND_TIME"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="1" r="13" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="FULLIN_MAN"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="0" r="14" s="1">
+<O>
+<![CDATA[故障通知时间]]></O>
+<Expand/>
+</C>
+<C c="1" r="14" s="3">
+<O>
+<![CDATA[填报人]]></O>
+<Expand/>
+</C>
+<C c="0" r="15" s="6">
+<Expand/>
+</C>
+<C c="1" r="15" s="7">
+<Expand/>
+</C>
+<C c="0" r="16" s="1">
+<O>
+<![CDATA[抵达现场时间]]></O>
+<Expand/>
+</C>
+<C c="1" r="16" s="3">
+<O>
+<![CDATA[负责人]]></O>
+<Expand/>
+</C>
+<C c="0" r="17" s="6">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="ARRIVAL_TIME"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="1" r="17" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="MAINTAIN_PRINCIPAL"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="0" r="18" s="1">
+<O>
+<![CDATA[恢复投运时间]]></O>
+<Expand/>
+</C>
+<C c="1" r="18" s="3">
+<O>
+<![CDATA[值班人]]></O>
+<Expand/>
+</C>
+<C c="2" r="18" rs="4" s="3">
+<O>
+<![CDATA[故障处理情况]]></O>
+<Expand/>
+</C>
+<C c="3" r="18" cs="3" rs="4" s="4">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="RESULT"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="0" r="19" s="6">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="RESUME_TIME"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="1" r="19" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="WATCH"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="0" r="20" s="1">
+<O>
+<![CDATA[处理终结时间]]></O>
+<Expand/>
+</C>
+<C c="1" r="20" s="3">
+<O>
+<![CDATA[负责人]]></O>
+<Expand/>
+</C>
+<C c="0" r="21" s="6">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="HANDLE_DATE"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="1" r="21" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="HANDLE_EMP_NO"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="0" r="22" cs="2" s="1">
+<O>
+<![CDATA[转处理，转处理原因]]></O>
+<Expand/>
+</C>
+<C c="2" r="22" cs="4" s="4">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="COME_OUT_REASON"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="0" r="23" s="8">
+<O>
+<![CDATA[抵达现场时间]]></O>
+<Expand/>
+</C>
+<C c="1" r="23" s="9">
+<Expand/>
+</C>
+<C c="2" r="23" s="10">
+<O>
+<![CDATA[转出人]]></O>
+<Expand/>
+</C>
+<C c="3" r="23" s="9">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="COME_OUT_MAN"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="4" r="23" s="10">
+<O>
+<![CDATA[接受人]]></O>
+<Expand/>
+</C>
+<C c="5" r="23" s="11">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="ACCEPTER"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+</CellElementList>
+<ReportSettings headerHeight="0.0" footerHeight="0.0">
+<PaperSetting>
+<Margin top="0.27" left="0.75" bottom="0.27" right="0.75"/>
+</PaperSetting>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="false" delayPlaying="true" windowPosition="1" align="1"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="1" size="20"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="2" color="-6697729"/>
+<Bottom style="1" color="-6697729"/>
+<Left style="2" color="-6697729"/>
+<Right style="2" color="-6697729"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="ColorBackground" color="-918276"/>
+<Border>
+<Top style="1" color="-6697729"/>
+<Bottom style="1" color="-6697729"/>
+<Left style="2" color="-6697729"/>
+<Right style="1" color="-6697729"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6697729"/>
+<Bottom style="1" color="-6697729"/>
+<Left style="1" color="-6697729"/>
+<Right style="1" color="-6697729"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="ColorBackground" color="-918276"/>
+<Border>
+<Top style="1" color="-6697729"/>
+<Bottom style="1" color="-6697729"/>
+<Left style="1" color="-6697729"/>
+<Right style="1" color="-6697729"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6697729"/>
+<Bottom style="1" color="-6697729"/>
+<Left style="1" color="-6697729"/>
+<Right style="2" color="-6697729"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="ColorBackground" color="-918276"/>
+<Border>
+<Top style="1" color="-6697729"/>
+<Bottom style="1" color="-6697729"/>
+<Left style="1" color="-6697729"/>
+<Right style="2" color="-6697729"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6697729"/>
+<Bottom style="1" color="-6697729"/>
+<Left style="2" color="-6697729"/>
+<Right style="1" color="-6697729"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="ColorBackground" color="-1"/>
+<Border>
+<Top style="1" color="-6697729"/>
+<Bottom style="1" color="-6697729"/>
+<Left style="1" color="-6697729"/>
+<Right style="1" color="-6697729"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="ColorBackground" color="-918276"/>
+<Border>
+<Top style="1" color="-6697729"/>
+<Bottom style="2" color="-6697729"/>
+<Left style="2" color="-6697729"/>
+<Right style="1" color="-6697729"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6697729"/>
+<Bottom style="2" color="-6697729"/>
+<Left style="1" color="-6697729"/>
+<Right style="1" color="-6697729"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="ColorBackground" color="-918276"/>
+<Border>
+<Top style="1" color="-6697729"/>
+<Bottom style="2" color="-6697729"/>
+<Left style="1" color="-6697729"/>
+<Right style="1" color="-6697729"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6697729"/>
+<Bottom style="2" color="-6697729"/>
+<Left style="1" color="-6697729"/>
+<Right style="2" color="-6697729"/>
+</Border>
+</Style>
+</StyleList>
+</WorkBook>

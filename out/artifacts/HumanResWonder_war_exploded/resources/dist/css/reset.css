@@ -1,0 +1,174 @@
+html,
+body {
+  height: 100%;
+}
+body{
+ background: #fff url('../img/beijing.png') 
+ }
+body,
+div,
+p,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+form,
+fieldset,
+input,
+lable,
+textarea,
+button,
+pre,
+blockquote,
+img,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+img,
+fieldset,
+abbr,
+acronym {
+  border: none;
+}
+address,
+caption,
+cite,
+code,
+dfn,
+i,
+ins {
+  font-style: normal;
+  font-weight: normal;
+}
+ol,
+ul,
+li {
+  list-style: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+table {
+  border-spacing: 0;
+}
+body {
+  font-size: 14px;
+  color: #505050;
+  font-family: 'Microsoft YaHei', 'SimSun';
+  word-break: break-all;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+  outline: 0;
+}
+button,
+input {
+  line-height: normal;
+}
+.center {
+  text-align: center;
+}
+.tleft {
+  text-align: left;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.none {
+  display: none;
+}
+/* a标签链接 */
+a {
+  outline: none;
+}
+a:link,
+a:visited {
+  text-decoration: none;
+}
+a:focus {
+  outline-style: none;
+  -moz-outline-style: none;
+}
+a:hover,
+a:active {
+  text-decoration: none;
+  outline: 0;
+}
+/* 文字溢出省略 */
+.ell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* 清除浮动 */
+.clear {
+  /* clear: both;
+  overflow: hidden;
+  height: 0; */
+  display: block;
+  zoom: 1;
+  *height: auto;
+}
+.clear:after,
+.clear:before {
+  content: " ";
+  display: table;
+  /* clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    height: 0;
+    content: "."; */
+}
+.clear:after {
+  clear: both;
+}
+*html .clearfix {
+  height: 1%;
+  zoom: 1;
+}
+/* 设置placeholder颜色 */
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #bdbcbc;
+}
+/* WebKit browsers */
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  color: #d2d2d2;
+}
+/* Mozilla Firefox 4 to 18 */
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+  color: #d2d2d2;
+}
+/* Mozilla Firefox 19+ */
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  color: #d2d2d2;
+}
+/* Internet Explorer 10+ */
